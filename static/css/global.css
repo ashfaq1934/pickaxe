@@ -1,0 +1,45 @@
+* {
+    box-sizing: border-box;
+}
+body {
+    margin: 0;
+    height: 100%;
+}
+nav{
+    display: flex;
+    flex-direction: row;
+}
+nav > a{
+    flex: 8;
+    align-self: center;
+}
+nav > ul{
+    display: flex;
+    order: 1;
+    flex: 1;
+    list-style: none;
+    height: 20%;
+}
+nav > ul > li{
+    width: 50%;
+}
+header, footer {
+    background: #7FB069;
+}
+header > .searchForm{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 20vh;
+}
+.searchForm > input[type=text]{
+    width: 30%;
+    padding: 5px;
+}
+.searchForm > input[type=submit]{
+    padding: 5px;
+    width: 8%;
+}
+footer{
+    height: 15vh;
+}

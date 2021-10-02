@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+{% block extra_css %}
+    <link href="{{ url_for('static', filename='css/home_page.css') }}" rel="stylesheet">
+{% endblock %}
+{% block title %}Home{% endblock %}
+{% block content %}
+    <section class="cards">
+    <div class="card">
+      <img src="{{ url_for('static', filename='images/img_avatar.png') }}" alt="Avatar" style="width:100%">
+      <div class="container">
+        <h4><b>John Doe</b></h4>
+        <p>Architect & Engineer</p>
+      </div>
+    </div>
+    <div class="card">
+      <img src="{{ url_for('static', filename='images/img_avatar.png') }}" alt="Avatar" style="width:100%">
+      <div class="container">
+        <h4><b>John Doe</b></h4>
+        <p>Architect & Engineer</p>
+      </div>
+    </div>
+    <div class="card">
+      <img src="{{ url_for('static', filename='images/img_avatar.png') }}" alt="Avatar" style="width:100%">
+      <div class="container">
+        <h4><b>John Doe</b></h4>
+        <p>Architect & Engineer</p>
+      </div>
+    </div>
+</section>
+<section class="description">
+    <div class="border"></div>
+    <p>
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore
+        magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+        consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
+        pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim
+        id est laborum.
+    </p>
+</section>
+{% endblock %}

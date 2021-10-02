@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+{% block extra_css %}
+{% endblock %}
+{% block title %}Results{% endblock %}
+{% block content %}
+    <section>
+    {% if response %}
+        {{response.hits}}
+    {% endif %}
+    </section>
+{% endblock %}

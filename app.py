@@ -19,7 +19,7 @@ def results():
     if query is not None:
         s = Search(using=es, index="arguments").query("multi_match", query=query, fields=['nodes.text'])
         response = s.execute()
-        return render_template('results.html', response=response)
+        return render_template('results.html', response=response, q=query)
 
 
 if __name__ == "__main__":

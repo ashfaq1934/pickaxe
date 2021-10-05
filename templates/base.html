@@ -10,16 +10,30 @@
 <body>
 <header>
     <nav>
-        <a href="#">Pickaxe</a>
+        <a href="{{ url_for('index') }}"><img alt="logo" src="{{ url_for('static', filename='images/logo.png') }}"></a>
+        {% if q %}
+        <form class="navSearch" action="{{ url_for('results') }}" method="GET" autocomplete="off">
+            <input type="text" name="q" id="q">
+            <input type="submit" value="Submit">
+        </form>
+        {% endif %}
         <ul>
             <li><a href="#">About</a></li>
             <li><a href="#">API</a></li>
         </ul>
     </nav>
+    {% if not q %}
     <form class="searchForm" action="{{ url_for('results') }}" method="GET" autocomplete="off">
         <input type="text" name="q" id="q">
         <input type="submit" value="Submit">
     </form>
+    {% else %}
+     <div class="panel">
+        <div class="panel-bar">
+            <span>Results</span>
+        </div>
+     </div>
+    {% endif %}
 </header>
 {% block content %}
 {% endblock %}

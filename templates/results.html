@@ -1,11 +1,31 @@
 {% extends "base.html" %}
 {% block extra_css %}
+    <link href="{{ url_for('static', filename='css/results.css') }}" rel="stylesheet">
 {% endblock %}
 {% block title %}Results{% endblock %}
 {% block content %}
-    <section>
+    <section class="results">
     {% if response %}
-        {{response.hits}}
+        {% for item in response.hits %}
+            {% for node in item.nodes %}
+                {% if node.text %}
+                <div class="result-card">
+                    <div class="result-content">
+                        <h4><b>Title</b></h4>
+                        <p>{{ node.text }}</p>
+                    </div>
+                </div>
+                {% else %}
+                <div class="result-card">
+                    <div class="result-content">
+                        <h4><b>Title</b></h4>
+                        <p>{{ node }}</p>
+                        <p>{{ node.name }}</p>
+                    </div>
+                </div>
+                {% endif %}
+                {% endfor %}
+        {% endfor %}
     {% endif %}
     </section>
 {% endblock %}

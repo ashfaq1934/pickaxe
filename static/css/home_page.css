@@ -12,9 +12,6 @@
 .card:hover {
     box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
 }
-.container {
-    padding: 2px 16px;
-}
 .description{
     justify-content: center;
     display: flex;
@@ -26,7 +23,11 @@
     margin: 2%;
 }
 .border{
-    padding: 5px;
-    background-color: burlywood;
-    width: 100%;
+    padding: 1px;
+    background-color: #679436;
+    width: 80%;
+    align-self: center;
+}
+.card-content {
+    padding: 2px 16px;
 }

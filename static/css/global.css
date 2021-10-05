@@ -8,9 +8,11 @@ body {
 nav{
     display: flex;
     flex-direction: row;
+    background-color: #EBF2FA;
+    padding: 1em;
 }
 nav > a{
-    flex: 8;
+    flex: 5;
     align-self: center;
 }
 nav > ul{
@@ -23,14 +25,32 @@ nav > ul{
 nav > ul > li{
     width: 50%;
 }
-header, footer {
-    background: #7FB069;
+nav > ul > li > a{
+    color: #064789;
+    text-decoration: none;
+    font-weight: bold;
 }
+
 header > .searchForm{
     display: flex;
     justify-content: center;
     align-items: center;
     height: 20vh;
+}
+nav > .navSearch{
+    display: flex;
+    align-self: center;
+    flex: 2;
+}
+nav > .navSearch > input[type=text]{
+    width: 70%;
+}
+.searchForm{
+    background: hsla(205, 42%, 45%, 1);
+    background: radial-gradient(circle, hsla(205, 42%, 45%, 1) 26%, hsla(206, 42%, 30%, 1) 100%);
+    background: -moz-radial-gradient(circle, hsla(205, 42%, 45%, 1) 26%, hsla(206, 42%, 30%, 1) 100%);
+    background: -webkit-radial-gradient(circle, hsla(205, 42%, 45%, 1) 26%, hsla(206, 42%, 30%, 1) 100%);
+
 }
 .searchForm > input[type=text]{
     width: 30%;
@@ -43,3 +63,22 @@ header > .searchForm{
 footer{
     height: 15vh;
 }
+.panel{
+    padding: 1em;
+    background-color: #427AA1;
+    width: 100%;
+    color: whitesmoke;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+.panel-bar > span{
+    font-weight: bold;
+    font-size: large;;
+}
+
+.panel-bar{
+    align-self: center;
+    width: 70%
+}
+

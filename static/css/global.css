@@ -30,7 +30,6 @@ nav > ul > li > a{
     text-decoration: none;
     font-weight: bold;
 }
-
 header > .searchForm{
     display: flex;
     justify-content: center;
@@ -44,21 +43,54 @@ nav > .navSearch{
 }
 nav > .navSearch > input[type=text]{
     width: 70%;
+    border: 3px solid white;
+    outline: none;
+    border-right: none;
+    border-radius: 5px 0 0 5px;
+}
+nav > .navSearch > button{
+    border: 1px solid white;
+    background: white;
+    text-align: center;
+    color: #064789;
+    border-radius: 0 5px 5px 0;
 }
 .searchForm{
     background: hsla(205, 42%, 45%, 1);
     background: radial-gradient(circle, hsla(205, 42%, 45%, 1) 26%, hsla(206, 42%, 30%, 1) 100%);
     background: -moz-radial-gradient(circle, hsla(205, 42%, 45%, 1) 26%, hsla(206, 42%, 30%, 1) 100%);
     background: -webkit-radial-gradient(circle, hsla(205, 42%, 45%, 1) 26%, hsla(206, 42%, 30%, 1) 100%);
-
 }
-.searchForm > input[type=text]{
-    width: 30%;
-    padding: 5px;
+.searchForm > *{
+    padding: 0.5%;
 }
-.searchForm > input[type=submit]{
-    padding: 5px;
-    width: 8%;
+.search-container{
+    display: flex;
+    width: 50%;
+}
+.search-container .search {
+    display: flex;
+    width: 100%;
+    position: relative;
+}
+.search-container .searchTerm {
+  width: 100%;
+  border: 3px solid white;
+  border-right: none;
+  padding: 5px;
+  border-radius: 5px 0 0 5px;
+  outline: none;
+}
+.search-container .searchButton {
+  width: 40px;
+  height: 50px;
+  border: 1px solid white;
+  background: white;
+  text-align: center;
+  color: #064789;
+  border-radius: 0 5px 5px 0;
+  cursor: pointer;
+  font-size: 20px;
 }
 footer{
     height: 15vh;
@@ -76,9 +108,7 @@ footer{
     font-weight: bold;
     font-size: large;;
 }
-
 .panel-bar{
     align-self: center;
     width: 70%
 }
-

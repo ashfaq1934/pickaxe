@@ -1,0 +1,92 @@
+{% extends "base.html" %}
+{% block extra_css %}
+    <link href="{{ url_for('static', filename='css/graph.css') }}" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/cytoscape/3.19.1/cytoscape.min.js" integrity="sha512-REr7ZKldLo2Lx6UiQ6autPWZR+j4u1/7ElYsrcwFe3ZmT/TKXCF/vXqNP/d2BQ78k0tapdZFccpFkku9bwrS3w==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+{#    <script src="https://unpkg.com/dagre@0.7.4/dist/dagre.js"></script>#}
+{#    <script src="https://unpkg.com/webcola@3.4.0/WebCola/cola.min.js"></script>#}
+{#    <script type="module" src="https://cdn.rawgit.com/cytoscape/cytoscape.js-dagre/1.5.0/cytoscape-dagre.js"></script>#}
+
+    <script src="https://cdn.rawgit.com/cpettitt/dagre/v0.7.4/dist/dagre.min.js"></script>
+    <script src="https://cdn.rawgit.com/cytoscape/cytoscape.js-dagre/1.5.0/cytoscape-dagre.js"></script>
+{#    <script src="https://cdn.jsdelivr.net/npm/cytoscape-elk@2.0.2/dist/cytoscape-elk.min.js"></script>#}
+{% endblock %}
+{% block content %}
+    <div id="cy"></div>
+    <div class="side-panel">
+        <h3>List of Keys</h3>
+        <div class="keys-list">
+            <div>{{ nodeset_id }}</div>
+        </div>
+    </div>
+{% endblock %}
+{% block extra_js %}
+    <script>
+{#    <script type="module">#}
+{#    import cytoscape from "{{ url_for('static', filename='js/cytoscape.min.js') }}"#}
+
+    var cy = cytoscape({
+
+    container: document.getElementById('cy'),
+
+    elements: [
+        {% for node in nodes %}
+            {% if node.text %}
+                {
+                    data: { id: '{{ node.id }}', content:'{{ node.text }}', type: 'atom' }
+                },
+            {% else %}
+                {
+                    data: { id: '{{ node.id }}', content:'{{ node.name }}', type: 'scheme' }
+                },
+            {% endif %}
+        {% endfor %}
+        {% for edge in edges %}
+        {
+            data: { id: '{{ edge.id }}', source: '{{ edge.source_id }}', target: '{{ edge.target_id }}' }
+        },
+        {% endfor %}
+
+    ],
+
+    style: [
+        {
+            selector: "node",
+            css: {
+                "content": "data(content)",
+                "width" : "auto",
+                "height" : "auto",
+                'text-wrap': 'wrap',
+                'text-max-width': 300,
+                "text-valign": "bottom",
+                "text-halign": "right",
+                "shape": "square",
+            }
+        },
+        {
+            selector: "node[type='atom']",
+            css: {
+                "background-color": "#bfbfbf"
+            }
+        },
+        {
+            selector: "node[type='scheme']",
+            css: {
+                "background-color": "#CC9900"
+            }
+        },
+        {
+            selector: 'edge',
+            css: {
+                "line-color": "#9dbaea",
+                "target-arrow-shape": "triangle",
+                "target-arrow-color": "#9dbaea",
+                "curve-style": "bezier"
+            }
+        }
+    ],
+    layout: {
+        name: 'dagre',
+    }
+    });
+    </script>
+{% endblock %}

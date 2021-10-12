@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>{% block title %}{% endblock %}</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link href="{{ url_for('static', filename='css/global.css') }}" rel="stylesheet">
     {% block extra_css %}
     {% endblock %}
@@ -11,10 +12,12 @@
 <header>
     <nav>
         <a href="{{ url_for('index') }}"><img alt="logo" src="{{ url_for('static', filename='images/logo.png') }}"></a>
-        {% if q %}
+        {% if request.endpoint != 'index' %}
         <form class="navSearch" action="{{ url_for('results') }}" method="GET" autocomplete="off">
             <input type="text" name="q" id="q">
-            <input type="submit" value="Submit">
+            <button type="button">
+                <i class="fa fa-search"></i>
+            </button>
         </form>
         {% endif %}
         <ul>
@@ -22,21 +25,27 @@
             <li><a href="#">API</a></li>
         </ul>
     </nav>
-    {% if not q %}
+    {% if request.endpoint == 'index' %}
     <form class="searchForm" action="{{ url_for('results') }}" method="GET" autocomplete="off">
-        <input type="text" name="q" id="q">
-        <input type="submit" value="Submit">
+    <div class="search-container">
+        <div class="search">
+            <input type="text" id="q" name="q" class="searchTerm">
+            <button type="submit" class="searchButton">
+              <i class="fa fa-search"></i>
+            </button>
+        </div>
+    </div>
     </form>
     {% else %}
      <div class="panel">
         <div class="panel-bar">
-            <span>Results</span>
         </div>
      </div>
     {% endif %}
 </header>
 {% block content %}
 {% endblock %}
-<footer>Footer</footer>
+{% block extra_js %}
+{% endblock %}
 </body>
 </html>

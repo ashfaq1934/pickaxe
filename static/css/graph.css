@@ -1,0 +1,15 @@
+html,
+body{
+    height: 100%;
+}
+#cy {
+    width: 70%;
+    height: 70%;
+    top: 0px;
+    left: 0px;
+    float: left;
+}
+.side-panel{
+    width: 20%;
+    float: right;
+}

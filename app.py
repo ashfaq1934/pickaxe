@@ -2,7 +2,6 @@ from elasticsearch import Elasticsearch
 from elasticsearch.serializer import JSONSerializer
 from elasticsearch_dsl import Search, Q
 from flask import Flask, render_template, request
-import json
 
 app = Flask(__name__, static_folder="static")
 es = Elasticsearch([{'host': 'localhost', 'port': 9200}])

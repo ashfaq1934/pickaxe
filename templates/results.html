@@ -8,23 +8,11 @@
     {% if response %}
         {% for item in response.hits %}
             {% for node in item.nodes %}
-                {% if node.text %}
+                {% if node.type == 'atom' %}
                 <div class="result-card">
                     <div class="result-content">
                         <h4><b>Title</b></h4>
                         <p>{{ node.text }}</p>
-                    </div>
-                    <div class="result-bottom">
-                        <div class="result-content">
-                            <a href="{{ url_for('graph', id=node.id) }}"><i class="fa fa-sitemap"></i></a>
-                        </div>
-                    </div>
-                </div>
-                {% else %}
-                <div class="result-card">
-                    <div class="result-content">
-                        <h4><b>Title</b></h4>
-                        <p>{{ node.name }}</p>
                     </div>
                     <div class="result-bottom">
                         <div class="result-content">

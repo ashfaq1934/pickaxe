@@ -39,6 +39,10 @@
     {% else %}
      <div class="panel">
         <div class="panel-bar">
+            {% if request.endpoint == 'results' %}
+            <button onclick="showTab('list')" class="active">List View</button>
+            <button onclick="showTab('pro-con')">Pro/Con</button>
+            {% endif %}
         </div>
      </div>
     {% endif %}

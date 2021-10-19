@@ -1,15 +1,58 @@
-.result-card {
-    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
-    transition: 0.3s;
-    width: 30%;
-    margin: 1%;
-    align-self: center;
-    background-color: white;
-}
 .results{
     display: flex;
     flex-direction: column;
     background-color: #f2f2f2;
+}
+.results > section{
+    display: flex;
+    flex-direction: column;
+}
+.results > h1{
+    align-self: center;
+    width: 80%;
+    padding: 0.5%;
+    border-bottom: 1px solid black;
+}
+.pro-con-view > .lists{
+    width: 80%;
+    align-self: center;
+}
+.list-view > *{
+    width: 30%;
+}
+.lists{
+    display: flex;
+    flex-direction: row;
+}
+.lists > .list{
+    width: 50%;
+    display: flex;
+    flex-direction: column;
+}
+.list > *{
+    display: flex;
+    flex-direction: column;
+    align-self: center;
+    width: 70%;
+}
+.list > h2{
+    margin-top: 0;
+    padding: 1%;
+}
+.pro-heading{
+    color: #408000;
+    border-bottom: 1px solid #408000;
+}
+.con-heading{
+    color: #cc3300;
+    border-bottom: 1px solid #cc3300;
+}
+.result-card {
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+    transition: 0.3s;
+    margin: 1%;
+    align-self: center;
+    background-color: white;
 }
 .result-content {
     padding: 2px 16px;
@@ -17,4 +60,13 @@
 .result-bottom{
     width: 100%;
     border-top: 1px solid #cccccc;
+}
+.result-bottom > .result-content > a{
+    color: black;
+}
+.result-bottom > .result-content > .date{
+    float: right;
+}
+.hidden{
+    display: none !important;
 }

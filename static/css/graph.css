@@ -2,6 +2,9 @@ html,
 body{
     height: 100%;
 }
+.panel-bar{
+    padding: 1em;
+}
 #cy {
     width: 85%;
     height: 90%;

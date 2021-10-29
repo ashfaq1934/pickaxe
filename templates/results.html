@@ -5,24 +5,116 @@
 {% block title %}Results{% endblock %}
 {% block content %}
     <section class="results">
+    <h1>Results</h1>
+    <div class="filters"></div>
     {% if response %}
+        <section class="list-view">
         {% for item in response.hits %}
             {% for node in item.nodes %}
                 {% if node.type == 'atom' %}
                 <div class="result-card">
                     <div class="result-content">
-                        <h4><b>Title</b></h4>
+                        <h4><b>{{ node.text|striptags|truncate(50, True) }}</b></h4>
                         <p>{{ node.text }}</p>
                     </div>
                     <div class="result-bottom">
                         <div class="result-content">
-                            <a href="{{ url_for('graph', id=node.id) }}"><i class="fa fa-sitemap"></i></a>
+                            <a href="{{ url_for('graph', id=node.id) }}" title="Go to Argument Map"><i class="fa fa-sitemap"></i></a>
+                            <span class="date">{{ node.metadata.aif_json.timestamp }}</span>
                         </div>
                     </div>
                 </div>
                 {% endif %}
                 {% endfor %}
         {% endfor %}
+        </section>
+        <section class="pro-con-view hidden">
+            <div class="lists">
+                <div class="list">
+                    <h2 class="pro-heading">Supporting</h2>
+                    {% for node in supporting_arguments %}
+                    <div class="result-card">
+                        <div class="result-content">
+                            <h4><b>{{ node['premise'].text|striptags|truncate(50, True) }}</b></h4>
+                            <p>{{ node['premise'].text }}</p>
+{#                            <p class="support-conclusion">Supports {{ node['conclusion'].id }}</p>#}
+                             <button class="btn support-conclusion">Supports {{ node['conclusion'].id }}</button>
+                            <div class="result-content conclusion hidden">
+                            <h4 class="conclusion-heading"><b>{{ node['conclusion'].text|striptags|truncate(50, True) }}</b></h4>
+                            <p>{{ node['conclusion'].text }}</p>
+                        </div>
+                        </div>
+                        <div class="result-bottom">
+                            <div class="result-content">
+                                <a href="{{ url_for('graph', id=node['premise'].id) }}" title="Go to Argument Map"><i class="fa fa-sitemap"></i></a>
+                                <span class="date">{{ node['premise'].metadata.aif_json.timestamp }}</span>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+            <div class="list">
+            <h2 class="con-heading">Conflicting</h2>
+                {% for node in conflicting_arguments %}
+                <div class="result-card">
+                    <div class="result-content">
+                        <h4><b>{{ node['premise'].text|striptags|truncate(50, True) }}</b></h4>
+                        <p>{{ node['premise'].text }}</p>
+{#                        <p class="conflict-conclusion"><a href="">Conflicts with {{ node['conclusion'].id }}</a></p>#}
+                        <button class="btn conflict-conclusion">Conflicts with {{ node['conclusion'].id }}</button>
+                        <div class="result-content conclusion hidden">
+                            <h4 class="conclusion-heading"><b>{{ node['conclusion'].text|striptags|truncate(50, True) }}</b></h4>
+                            <p>{{ node['conclusion'].text }}</p>
+                        </div>
+                    </div>
+                    <div class="result-bottom">
+                        <div class="result-content">
+                            <a href="{{ url_for('graph', id=node['premise'].id) }}" title="Go to Argument Map"><i class="fa fa-sitemap"></i></a>
+                            <span class="date">{{ node['premise'].metadata.aif_json.timestamp }}</span>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+          </div>
+        </section>
     {% endif %}
     </section>
+{% endblock %}
+{% block extra_js %}
+    <script>
+    let tabs = document.querySelectorAll('.panel-bar button');
+    tabs.forEach(tab => {
+        tab.addEventListener('click', function (){
+            tabs.forEach(tab => tab.classList.remove("active"));
+            tab.classList.add("active");
+        });
+    });
+    function showTab(tab){
+        if(tab === 'list'){
+            document.querySelector('.list-view').classList.remove('hidden');
+            document.querySelector('.pro-con-view').classList.add('hidden');
+        }
+        if(tab === 'pro-con'){
+            document.querySelector('.pro-con-view').classList.remove('hidden');
+            document.querySelector('.list-view').classList.add('hidden');
+        }
+    }
+
+    let acc = document.querySelectorAll(".btn");
+    console.log(acc)
+    var i;
+
+    for (i = 0; i < acc.length; i++) {
+      acc[i].addEventListener("click", function() {
+        let panel = this.nextElementSibling;
+        if (panel.classList.contains('hidden')) {
+            panel.classList.remove('hidden');
+        } else {
+          panel.classList.add('hidden');
+        }
+      });
+}
+
+    </script>
 {% endblock %}

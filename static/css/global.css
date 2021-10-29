@@ -96,7 +96,6 @@ footer{
     height: 15vh;
 }
 .panel{
-    padding: 1em;
     background-color: #427AA1;
     width: 100%;
     color: whitesmoke;
@@ -104,11 +103,21 @@ footer{
     flex-direction: row;
     justify-content: center;
 }
-.panel-bar > span{
+.panel-bar > button{
     font-weight: bold;
-    font-size: large;;
+    font-size: large;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    padding: 1em;
+    color: whitesmoke;
+    background-color: inherit;
 }
 .panel-bar{
     align-self: center;
-    width: 70%
+    width: 80%;
 }
+.active{
+    background-color: #3b6d91 !important;
+}
+

@@ -67,6 +67,40 @@
 .result-bottom > .result-content > .date{
     float: right;
 }
+.support-conclusion{
+    color: #408000;
+    border: 2px solid #408000;
+}
+.support-conclusion:hover{
+    color: whitesmoke;
+    background-color: #408000;
+    transition: 0.3s;
+}
+.conflict-conclusion{
+    color: #cc3300;
+    border: 2px solid #cc3300;
+}
+.conflict-conclusion:hover{
+    color: whitesmoke;
+    background-color: #cc3300;
+    transition: 0.3s;
+}
+.btn {
+    border-radius: 3px;
+    background-color: white;
+    padding: 1%;
+    font-size: 16px;
+    cursor: pointer;
+    margin-bottom: 3%;
+}
+.conclusion-heading{
+    margin: 0;
+}
+.conclusion{
+    margin-top: 3%;
+    border-top: 1px solid grey;
+    padding: 3%;
+}
 .hidden{
     display: none !important;
 }

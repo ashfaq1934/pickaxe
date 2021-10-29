@@ -37,6 +37,12 @@
                         <div class="result-content">
                             <h4><b>{{ node['premise'].text|striptags|truncate(50, True) }}</b></h4>
                             <p>{{ node['premise'].text }}</p>
+{#                            <p class="support-conclusion">Supports {{ node['conclusion'].id }}</p>#}
+                             <button class="btn support-conclusion">Supports {{ node['conclusion'].id }}</button>
+                            <div class="result-content conclusion hidden">
+                            <h4 class="conclusion-heading"><b>{{ node['conclusion'].text|striptags|truncate(50, True) }}</b></h4>
+                            <p>{{ node['conclusion'].text }}</p>
+                        </div>
                         </div>
                         <div class="result-bottom">
                             <div class="result-content">
@@ -54,6 +60,12 @@
                     <div class="result-content">
                         <h4><b>{{ node['premise'].text|striptags|truncate(50, True) }}</b></h4>
                         <p>{{ node['premise'].text }}</p>
+{#                        <p class="conflict-conclusion"><a href="">Conflicts with {{ node['conclusion'].id }}</a></p>#}
+                        <button class="btn conflict-conclusion">Conflicts with {{ node['conclusion'].id }}</button>
+                        <div class="result-content conclusion hidden">
+                            <h4 class="conclusion-heading"><b>{{ node['conclusion'].text|striptags|truncate(50, True) }}</b></h4>
+                            <p>{{ node['conclusion'].text }}</p>
+                        </div>
                     </div>
                     <div class="result-bottom">
                         <div class="result-content">
@@ -88,5 +100,21 @@
             document.querySelector('.list-view').classList.add('hidden');
         }
     }
+
+    let acc = document.querySelectorAll(".btn");
+    console.log(acc)
+    var i;
+
+    for (i = 0; i < acc.length; i++) {
+      acc[i].addEventListener("click", function() {
+        let panel = this.nextElementSibling;
+        if (panel.classList.contains('hidden')) {
+            panel.classList.remove('hidden');
+        } else {
+          panel.classList.add('hidden');
+        }
+      });
+}
+
     </script>
 {% endblock %}

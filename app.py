@@ -1,8 +1,6 @@
 from elasticsearch import Elasticsearch
-from elasticsearch_dsl import Search
-from flask import Flask, render_template, request
-from collections import OrderedDict
-import json
+from elasticsearch_dsl import Search, query
+from flask import Flask, render_template, request, jsonify
 
 app = Flask(__name__, static_folder="static")
 es = Elasticsearch([{'host': 'localhost', 'port': 9200}])
@@ -10,14 +8,34 @@ es = Elasticsearch([{'host': 'localhost', 'port': 9200}])
 
 @app.route('/')
 def index():
-    return render_template('index.html')
+    unordered_highlights = []
+
+    q = {
+        "sort": [
+            {"nodes.views": {"order": "desc"}}
+        ],
+        "query": {
+            "exists": {
+                "field": "nodes.views"
+            }
+        }
+    }
+
+    res = es.search(index="arguments", body=q)
+    for hit in res['hits']['hits']:
+        for node in hit['_source']['nodes']:
+            if 'views' in node:
+                unordered_highlights.append(node)
+    highlights = sorted(unordered_highlights, key=lambda highlight: highlight['views'],  reverse=True)
+
+    return render_template('index.html', highlights=highlights)
 
 
 @app.route('/results', methods=['GET'])
 def results():
-    query = request.args.get('q')
-    if query is not None:
-        s = Search(using=es, index="arguments").query("multi_match", query=query, fields=['nodes.text'])
+    q = request.args.get('q')
+    if q is not None:
+        s = Search(using=es, index="arguments").query("multi_match", query=q, fields=['nodes.text'])
         response = s.execute()
 
         ra_nodes = []
@@ -117,7 +135,7 @@ def results():
 
 @app.route('/graph/<id>', methods=['GET'])
 def graph(id):
-    query = {
+    q = {
         'from': 0, 'size': 1,
         'query': {
             'bool': {
@@ -132,12 +150,44 @@ def graph(id):
         }
     }
 
-    response = es.search(index='arguments', body=query)
+    response = es.search(index='arguments', body=q)
     nodeset_id = response['hits']['hits'][0]['_id']
     nodes = response['hits']['hits'][0]['_source']['nodes']
     edges = response['hits']['hits'][0]['_source']['edges']
 
     return render_template('graph.html', nodes=nodes, edges=edges, nodeset_id=nodeset_id)
+
+
+@app.route('/update/', methods=['POST'])
+def update_node():
+    node_id = request.form.get('node_id')
+    search_query = {
+        'query': {
+            'bool': {
+                'must': [
+                    {
+                        'match': {
+                            'nodes.id': node_id
+                        }
+                    }
+                ]
+            }
+        }
+    }
+    response = es.search(index='arguments', body=search_query)
+    result = response['hits']['hits'][0]
+    doc = result['_source']
+
+    for node in doc['nodes']:
+        if node['id'] == node_id:
+            if 'views' in node:
+                node['views'] += 1
+            else:
+                node['views'] = 1
+
+    updated = es.update(index="arguments", id=result['_id'], body={"doc":doc})
+
+    return jsonify(updated)
 
 
 if __name__ == "__main__":

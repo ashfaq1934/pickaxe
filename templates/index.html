@@ -5,25 +5,23 @@
 {% block title %}Home{% endblock %}
 {% block content %}
     <section class="cards">
-    <div class="card">
-      <div class="card-content">
-        <h4>Highlight</h4>
-        <p>Lorem ipsum dolor sit amet</p>
-      </div>
-    </div>
-    <div class="card">
-      <div class="card-content">
-        <h4>Highlight</h4>
-        <p>Lorem ipsum dolor sit amet</p>
-      </div>
-    </div>
-    <div class="card">
-      <div class="card-content">
-        <h4>Highlight</h4>
-        <p>Lorem ipsum dolor sit amet</p>
-      </div>
-    </div>
-</section>
+    {% for highlight in highlights %}
+        {% if loop.index < 4 %}
+        <div class="card">
+          <div class="card-content">
+            <h4>{{ highlight.text|striptags|truncate(50, True) }}</h4>
+            <p>{{ highlight.text }}</p>
+          </div>
+            <div class="card-bottom">
+                <div class="card-bottom-content">
+                    <a href="{{ url_for('graph', id=highlight.id) }}" title="Go to Argument Map"
+                   onclick="updateNode('{{ highlight.id }}')"><i class="fa fa-sitemap"></i></a>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+    {% endfor %}
+    </section>
 <section class="description">
     <div class="border"></div>
     <p>
@@ -34,4 +32,15 @@
         id est laborum.
     </p>
 </section>
+{% endblock %}
+{% block extra_js %}
+    <script>
+    function updateNode(node_id){
+        let data = "node_id=" + node_id
+        const xhttp = new XMLHttpRequest();
+        xhttp.open("POST", '{{   url_for("update_node") }}', true);
+        xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+        xhttp.send(data);
+    }
+    </script>
 {% endblock %}

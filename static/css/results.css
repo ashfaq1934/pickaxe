@@ -57,6 +57,14 @@
 .result-content {
     padding: 2px 16px;
 }
+.result-bottom > .result-content > button{
+    background-color: white;
+    border: none;
+    cursor: pointer;
+}
+.result-content > *{
+    margin-left: 2%;
+}
 .result-bottom{
     width: 100%;
     border-top: 1px solid #cccccc;
@@ -103,4 +111,27 @@
 }
 .hidden{
     display: none !important;
+}
+
+.dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+.dropdown-content {
+    position: absolute;
+    background-color: #f1f1f1;
+    min-width: 20%;
+    overflow: auto;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
+    padding: 1%;
+}
+
+.dropdown-content p {
+    margin: 3%;
+}
+
+.show {
+    display: block;
 }

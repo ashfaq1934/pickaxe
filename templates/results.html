@@ -6,10 +6,10 @@
 {% block content %}
     <section class="results">
     <h1>Results</h1>
-    <div class="filters"></div>
     {% if response %}
         <section class="list-view">
-        {% for item in response.hits %}
+        {% for item in response %}
+            {% for hit in response.hits.hits %}
             {% for node in item.nodes %}
                 {% if node.type == 'atom' %}
                 <div class="result-card">
@@ -19,13 +19,23 @@
                     </div>
                     <div class="result-bottom">
                         <div class="result-content">
-                            <a href="{{ url_for('graph', id=node.id) }}" title="Go to Argument Map"><i class="fa fa-sitemap"></i></a>
+                            <a href="{{ url_for('graph', id=node.id) }}" title="Go to Argument Map" onclick="updateNode('{{ node.id }}')"><i class="fa fa-sitemap"></i></a>
+                            <button class="dropbtn"><i class="fa fa-bar-chart"></i></button>
+                            <div class="dropdown-content hidden">
+                                <p><b>TF-IDF score:</b> {{ hit._score }}</p>
+                                {% if node.views %}
+                                    <p><b>Views:</b> {{ node.views }}</p>
+                                {% else %}
+                                    <p><b>Views:</b> 0</p>
+                                {% endif %}
+                            </div>
                             <span class="date">{{ node.metadata.aif_json.timestamp }}</span>
                         </div>
                     </div>
                 </div>
                 {% endif %}
                 {% endfor %}
+        {% endfor %}
         {% endfor %}
         </section>
         <section class="pro-con-view hidden">
@@ -37,16 +47,17 @@
                         <div class="result-content">
                             <h4><b>{{ node['premise'].text|striptags|truncate(50, True) }}</b></h4>
                             <p>{{ node['premise'].text }}</p>
-{#                            <p class="support-conclusion">Supports {{ node['conclusion'].id }}</p>#}
                              <button class="btn support-conclusion">Supports {{ node['conclusion'].id }}</button>
                             <div class="result-content conclusion hidden">
-                            <h4 class="conclusion-heading"><b>{{ node['conclusion'].text|striptags|truncate(50, True) }}</b></h4>
+                            <h4 class="conclusion-heading">
+                                <b>{{ node['conclusion'].text|striptags|truncate(50, True) }}</b></h4>
                             <p>{{ node['conclusion'].text }}</p>
                         </div>
                         </div>
                         <div class="result-bottom">
                             <div class="result-content">
-                                <a href="{{ url_for('graph', id=node['premise'].id) }}" title="Go to Argument Map"><i class="fa fa-sitemap"></i></a>
+                                <a href="{{ url_for('graph', id=node['premise'].id) }}" title="Go to Argument Map"
+                                   onclick="updateNode('{{ node['premise'].id }}')"><i class="fa fa-sitemap"></i></a>
                                 <span class="date">{{ node['premise'].metadata.aif_json.timestamp }}</span>
                             </div>
                         </div>
@@ -60,16 +71,17 @@
                     <div class="result-content">
                         <h4><b>{{ node['premise'].text|striptags|truncate(50, True) }}</b></h4>
                         <p>{{ node['premise'].text }}</p>
-{#                        <p class="conflict-conclusion"><a href="">Conflicts with {{ node['conclusion'].id }}</a></p>#}
                         <button class="btn conflict-conclusion">Conflicts with {{ node['conclusion'].id }}</button>
                         <div class="result-content conclusion hidden">
-                            <h4 class="conclusion-heading"><b>{{ node['conclusion'].text|striptags|truncate(50, True) }}</b></h4>
+                            <h4 class="conclusion-heading">
+                                <b>{{ node['conclusion'].text|striptags|truncate(50, True) }}</b></h4>
                             <p>{{ node['conclusion'].text }}</p>
                         </div>
                     </div>
                     <div class="result-bottom">
                         <div class="result-content">
-                            <a href="{{ url_for('graph', id=node['premise'].id) }}" title="Go to Argument Map"><i class="fa fa-sitemap"></i></a>
+                            <a href="{{ url_for('graph', id=node['premise'].id) }}" title="Go to Argument Map"
+                               onclick="updateNode('{{ node['premise'].id }}')"><i class="fa fa-sitemap"></i></a>
                             <span class="date">{{ node['premise'].metadata.aif_json.timestamp }}</span>
                         </div>
                     </div>
@@ -101,20 +113,37 @@
         }
     }
 
-    let acc = document.querySelectorAll(".btn");
-    console.log(acc)
-    var i;
+    let argumentButtons = document.querySelectorAll(".btn");
+    argumentButtons.forEach(argumentButton => {
+        argumentButton.addEventListener("click", function (){
+            let panel = this.nextElementSibling;
+            if (panel.classList.contains('hidden')) {
+                panel.classList.remove('hidden');
+            } else {
+              panel.classList.add('hidden');
+            }
+        })
+    })
 
-    for (i = 0; i < acc.length; i++) {
-      acc[i].addEventListener("click", function() {
-        let panel = this.nextElementSibling;
-        if (panel.classList.contains('hidden')) {
-            panel.classList.remove('hidden');
-        } else {
-          panel.classList.add('hidden');
-        }
-      });
-}
+    function updateNode(node_id){
+        let data = "node_id=" + node_id
+        const xhttp = new XMLHttpRequest();
+        xhttp.open("POST", '{{   url_for("update_node") }}', true);
+        xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+        xhttp.send(data);
+    }
+
+    let dropdownButtons = document.querySelectorAll('.dropbtn');
+    dropdownButtons.forEach(dropdownButton =>{
+        dropdownButton.addEventListener("click", function (){
+            let dropdown = this.nextElementSibling;
+            if (dropdown.classList.contains('hidden')) {
+                dropdown.classList.remove('hidden');
+            } else {
+              dropdown.classList.add('hidden');
+            }
+        })
+    })
 
     </script>
 {% endblock %}

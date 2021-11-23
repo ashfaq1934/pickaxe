@@ -5,6 +5,7 @@
 {% block title %}Home{% endblock %}
 {% block content %}
     <section class="cards">
+    {% if highlights %}
     {% for highlight in highlights %}
         {% if loop.index < 4 %}
         <div class="card">
@@ -21,6 +22,9 @@
         </div>
         {% endif %}
     {% endfor %}
+    {% else %}
+        <h2>No highlights available</h2>
+    {% endif %}
     </section>
 <section class="description">
     <div class="border"></div>
